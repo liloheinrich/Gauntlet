@@ -11,7 +11,7 @@ The gauntlet is a simulated environment with obstacles (boxes), walls, and the B
 - Level 2: the BoB location and radius is given but obstacles must be found using LIDAR
 - Level 3: the radius of the BoB is given, obstacles and BoB must be found using LIDAR
 
-Where levels 2 & 3 may be completed either through dynamic updating or just an initial scan from the LIDAR. I chose to take on level 3.
+Where levels 2 & 3 may be completed either through dynamic updating or just an initial scan from the LIDAR. I completed level 3.
 
 
 
@@ -37,21 +37,20 @@ The five main steps to my method of completing the challenge were:
 
 3. Path: 
 
-1. a. create potential field with sources across line segments and sinks along BoB circle![img](https://lh3.googleusercontent.com/RXppRp6rfCVRdcE0V6H1y5ZCujMS_O-BUpkgchaMCY6hFY9j8Y5Kh-w72Svxyb_WNk1vaFUsHCvlVjFMqUeCt8OYnRDJWn130gQEca8xP1YzxEncqo6w7-Bk6dCqWVRkDbScpzXl)
+   1.  create potential field with sources across line segments and sinks along BoB circle![img](https://lh3.googleusercontent.com/RXppRp6rfCVRdcE0V6H1y5ZCujMS_O-BUpkgchaMCY6hFY9j8Y5Kh-w72Svxyb_WNk1vaFUsHCvlVjFMqUeCt8OYnRDJWn130gQEca8xP1YzxEncqo6w7-Bk6dCqWVRkDbScpzXl)
 
-1. b. run gradient descent to calculate path to local maximum
+   2. run gradient descent to calculate path to local maximum
+
 
 ![img](https://lh6.googleusercontent.com/0k8IL5rt1sM_tj2yXEgd0OzpWi4t-d99RotHfe83BmYEFwZAPf0QLgyaeAebhJZHA13k51dxB9_bytEYHjIiJzJduxwzuuX35C6Yuj3ooB-jbuzvBgIUSpyDoJQmdDMQPSEVG-1N)
 
 4. Drive: use the change in heading to feed into the angular velocity in order to roughly follow the calculated points path (also: record encoder data as Neato drives)
 
-1. a. Calibrate coefficients for the angular velocity, forward velocity, and time increment
+   1. Calibrate coefficients for the angular velocity, forward velocity, and time increment
 
-2. b. Results: the neato drove the path in **4.405 seconds** according to my program
-
-3. 1. i. Video link:* https://youtu.be/aL6x6IM77Cw
-
-   2. ii. Or find it in the github repository linked above
+   2. Results: the neato drove the path in **4.405 seconds** according to my program
+      1. Video link:* https://youtu.be/aL6x6IM77Cw
+      2. Or find it in the github repository linked above
 
 5. Analyze: reconstruct path from encoder data, compare it to calculated path
 
