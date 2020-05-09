@@ -1,7 +1,11 @@
+%% Two parts in this file
+% section 1: visualize potential field contours and gradient vectors
+% section 2: run gradient descent calculations to get path points
+
+%% numerically solve for potential field and gradient field over a meshgrid
 clc; clf; close all; clear all;
 load shapedata;
 
-%% numerically solve for potential field and gradient field over a meshgrid
 [X Y] = meshgrid(-3:.2:3);
 Z4 = 0;
 inc = .1;
@@ -35,6 +39,8 @@ save('pathpoints', 'xn', 'yn')
 
 function [xn yn] = calculate_all(input, xi, yi, lambda, sigma, max_pts)
     load(input);
+    
+    % make potential eq and find gradient
     syms X Y Z;
     inc = .1;
     for i=1:size(endpoints, 1)
@@ -50,6 +56,8 @@ function [xn yn] = calculate_all(input, xi, yi, lambda, sigma, max_pts)
         Z = Z - log(sqrt((X-a).^2+(Y-b).^2))*3;
     end
     G = gradient(Z, [X, Y]);
+    
+    % calculate points in gradient descent using gradient eqs
     dist_from_center = sqrt((xi-center(1))^2+(yi-center(2))^2);
     xn = zeros(1,1);
     yn = zeros(1,1);
@@ -61,31 +69,31 @@ function [xn yn] = calculate_all(input, xi, yi, lambda, sigma, max_pts)
         fy = subs(G(2), [X Y], [xn(i-1) yn(i-1)]);
         xn(i) = lambda*fx + xn(i-1);
         yn(i) = lambda*fy + yn(i-1);
-        hold on
-        plot(xn(i), yn(i), 'gx')
-%         pause(.25)
-        hold off
+        
+        hold on; plot(xn(i), yn(i), 'gx'); pause(.25); hold off; % graph pts
         dist_from_center = sqrt((xn(i)-center(1))^2+(yn(i)-center(2))^2);
         lambda = lambda*sigma;
         i = i + 1;
     end
-    graph(radius, center, endpoints)
+    graph(radius, center, endpoints) % graph gauntlet
     legend('Path points')
     title('Path to BoB using gradient descent')
 end
 
-% graph gauntlet shapedata that was calculated using ransac_fit.m
+% graph gauntlet layout for context on the graph
 function graph(radius, center, endpoints)
     hold on
+    
+    % calculate equidistant points along circle perimeter
     circlepts = zeros(2,360);
     for angle=1:360
         circlepts(:,angle) = [radius*cosd(angle)+center(1), radius*sind(angle)+center(2)];
     end
-    plot(circlepts(1,:), circlepts(2,:), 'm')
-    plot(center(:,1), center(:,2), 'mx')
-    plot(0,0,'bx')
+    plot(circlepts(1,:), circlepts(2,:), 'm') % circle
+    plot(center(:,1), center(:,2), 'mx') % circle center
+    plot(0,0,'bx') % start point
     for i=1:size(endpoints, 1)
-        plot(endpoints(i,:,1), endpoints(i,:,2), 'r')
+        plot(endpoints(i,:,1), endpoints(i,:,2), 'r') % all the line segments
     end
     axis equal;
     xlim([-2, 3]);

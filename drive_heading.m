@@ -1,9 +1,6 @@
-clc; close all; clear all;
+% used to drive the path of specified x,y points and save the encoder data
 
-% 1. scan
-% 2. fit
-% 3. path
-% 5. DRIVE!
+clc; close all; clear all;
 drive('output');
 
 function drive(datafile)
@@ -14,20 +11,21 @@ function drive(datafile)
     pub = rospublisher('/raw_vel'); msg = rosmessage(pub);
     msg.Data = [0, 0]; send(pub, msg); % stop the robot
     
+    % place neato at origin w initial heading
     count = 1;
     dx = xn(count+1)-xn(count);
     dy = yn(count+1)-yn(count);
     heading = atan2(dy, dx);
     placeNeato(0,0,dx,dy);
 
-    pause(10); % wait a bit for robot to fall onto the bridge
+    pause(10); % wait a bit
     start = rostime('now'); % get the simulation time as a rostime obj
     start = double(start.Sec)+double(start.Nsec)*10^-9; % convert to double
     
-    pause_time = .1;
-    p = 1.5;
-    v = .535;
-    'starting loop'
+    % coefficients which need calibrating, unfortunately...
+    pause_time = .1; % time between calculating new heading
+    p = 1.5; % proportional angular velocity coefficient
+    v = .535; % linear velocity constant
     
     % control loop feeding velocity data to the neato over time
     while count < size(xn, 2)
@@ -39,17 +37,18 @@ function drive(datafile)
             count
             dx = xn(count+1)-xn(count);
             dy = yn(count+1)-yn(count);
-            new_heading = atan2(dy, dx);
+            new_heading = atan2(dy, dx); % calc new heading in relation to prev
+            
+            % from wheelspeed equations V(R/L) = V (+/-) w/d
             msg.Data = [v+(heading-new_heading)*p v-(heading-new_heading)*p];
-%             msg.Data = [1 1];
             send(pub, msg);
             count = count + 1;
             heading = new_heading;
         end
-        pause(pause_time/10) % allows the subscriber thread to run
+        pause(pause_time/10) % pausing allows the subscriber thread to run
     end
-    'done with loop'
-    disp(['Elapsed time: ', num2str(elapsedTime)]);
+    
+    disp(['Elapsed time: ', num2str(elapsedTime)]); % total time to drive path
     msg.Data = [0, 0]; send(pub, msg); 
 end
 

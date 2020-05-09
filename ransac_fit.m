@@ -1,12 +1,11 @@
+% used to find BoB and line segments of walls/obstacles
 clc; clf; close all; clear all;
-
 fit('scandata', 'shapedata')
 
 function fit(input, output)
-    % load scan data that was collected using collectScan.m
-    load(input)
+    load(input) % lidar scan data (ranges, angle_increment)
 
-    % create theta based on angle_increment for each data point in ranges
+    % create theta from angle_increment for each data point in ranges
     theta = zeros(size(ranges, 1), 1);
     for i=1:size(ranges, 1)
         theta(i) = i*angle_increment;
@@ -17,8 +16,7 @@ function fit(input, output)
     ranges=ranges(index);
     theta=theta(index);
 
-    % convert to cartesian x, y
-    [x,y]=pol2cart(theta,ranges);
+    [x,y]=pol2cart(theta,ranges); % convert to cartesian x, y
     x = x - .084; % lidar offset from axle center
     cart=[x y];
 
@@ -26,25 +24,24 @@ function fit(input, output)
     hold on; plot(cart(:,1), cart(:,2),'k.'); hold off;
 
     % setup variables and run targeted circle fit first
-    d = .0075; n = 1000;
-    tol = .1; r = .25;
+    d = .0075; % maximum inlier distance
+    n = 1000; % number of ransac attempts
+    r = .25; % radius of circle
+    tol = .1; % percent tolerance on radius
 
-    % circle fit looking for BoB in certain area on map
-    % [outliers calc_r center] = circlefit(cart, d, n, r, tol);
+    [outliers radius center] = circlefit(cart, d, n, r, tol);
 
-    % circle fit using discriminating criteria (ex. point dist, radius,
-    % near inliers) to identify the best circle
-    [outliers radius center] = circlefit2(cart, d, n, r, tol);
-
-    stop = 2; k = .5;
+    stop = 2; % how many outliers left to stop fitting at
+    k = .5; % maximum gap size
     [outliers endpoints] = linefit_multiple(outliers, d, n, k, stop);
 
     % save line and circle data
-    center
     save(output, 'endpoints', 'radius', 'center');
 end
 
 function [outliers endpoints] = linefit_multiple(cart, d, n, k, cutoff)
+% fit lines until the cutoff number of outliers has been reached
+
     outliers = cart;
     endpoints = [];
     while size(outliers, 1) > cutoff
@@ -56,6 +53,8 @@ function [outliers endpoints] = linefit_multiple(cart, d, n, k, cutoff)
 end
 
 function graph_line(endline)
+% graph line segments based on the given line endpoints
+
     hold on; 
     plot(endline(:, 1), endline(:, 2), 'bo')
     plot(endline(:,1), endline(:,2), 'g')
@@ -71,13 +70,16 @@ function graph_line(endline)
 end
 
 function graph_circle(center, r)
-    hold on
+% graph circle based on the given center and radius
+
+    % calculating points evenly spaced along circle perimeter
     circlepts = zeros(2,360);
     for angle=1:360
         circlepts(:,angle) = [r*cosd(angle)+center(1), r*sind(angle)+center(2)];
     end
-    plot(circlepts(1,:), circlepts(2,:), 'g')
     
+    hold on
+    plot(circlepts(1,:), circlepts(2,:), 'g')
     legend('Data points','Fit lines')
     axis equal;
     xlim([-2, 3]);
@@ -89,6 +91,10 @@ function graph_circle(center, r)
 end
 
 function [endline inliers] = linefit(cart, d, n, k)
+% fits the line segment through 2 random points with the greatest number of
+% inliers with n number of attempts, d maximum inlier distance, and k
+% largest gap size in dataset cart
+
     inliers = []; % indeces in cart of inlying points
     endline = [0 0; 0 0]; % endpoints of line on line
     m = 0; % slope of best line
@@ -101,10 +107,10 @@ function [endline inliers] = linefit(cart, d, n, k)
         
         largest_gap = calc_largest_gap(cart(new_inliers,:), new_endpoints(1,:));
         if largest_gap > k
-            new_inliers = []; % num of inlying points
+            new_inliers = []; % invalid solution if it has big gaps
         end
         
-        if (size(new_inliers,1) > size(inliers,1))
+        if (size(new_inliers,1) > size(inliers,1)) % check if it's best yet
             inliers = new_inliers;
             endline = new_endline;
             m = new_m;
@@ -115,13 +121,19 @@ function [endline inliers] = linefit(cart, d, n, k)
 end
 
 function [min_dist, index] = closest_point_dist(points, point)
-    min_dist = 999999999;
-    index = 0;
+% calculate the minimum distance from 'point' to any other point in 'points'
+
+    min_dist = 999999999; % large number because 'Inf' wasn't working
+    index = 0; % closest point index
     for i=1:size(points, 1)
+        % if it's the same point, dist is 0, save index
         if points(i,1) == point(1) & points(i,2) == point(2)
             min_dist = 0;
             index = i;
         end
+        
+        % if it's not the same point, calculate distance and if it's
+        % closer, save dist and index
         if points(i,1) ~= point(1) | points(i,2) ~= point(2)
             dist = sqrt((points(i,1)-point(1))^2 + (points(i,2)-point(2))^2);
             if dist < min_dist & dist ~= 0
@@ -133,8 +145,10 @@ function [min_dist, index] = closest_point_dist(points, point)
 end
 
 function max_gap = calc_largest_gap(points, point)
-    points_left = points;
-    max_gap = 0;
+% calculates the biggest gap from one point to another starting from 'point'
+
+    points_left = points; % keep track of points left
+    max_gap = 0; % keep track of biggest gap
     
     [min_dist, index] = closest_point_dist(points_left, point);
     if min_dist > max_gap
@@ -142,6 +156,9 @@ function max_gap = calc_largest_gap(points, point)
     end
     
     while size(points_left,1) > 1
+        % go through all points, removing ones already used, getting the
+        % minimum distance from that point to any other that's left
+        
         point = points_left(index,:);
         points_left(index,:) = [];
         [min_dist, index] = closest_point_dist(points_left, point);
@@ -152,29 +169,31 @@ function max_gap = calc_largest_gap(points, point)
 end
 
 function [inliers endline m b] = calc_inliers(cart, d, endpoints)
+% calculates the inliers on the line segment as well as where the segment
+% ends given the two random endpoints to make a line through, datapoints
+% cart, and inlier distance
+
     m = (endpoints(1,2)-endpoints(2,2))/(endpoints(1,1)-endpoints(2,1)); % rise/run
     b = endpoints(1,2)-m*endpoints(1,1); % b = y - mx
-    dist = sqrt((endpoints(1,1)-endpoints(2,1))^2 + (endpoints(1,2)-endpoints(2,2))^2);
-    
-    bn_endpoints = endpoints(:,2) + endpoints(:,1)/m; % solve b = y + x/m
-    x_endpoints = (bn_endpoints - b)/(m + 1/m); % solve mx+b = -x/m+bn for x
-    y_endpoints = m*x_endpoints + b;
-    endline = [x_endpoints y_endpoints]; % intersection on line tangent to endpoints
+    endline = endpoints; % intersection on line tangent to endpoints
     
     inliers = [];
     for i=1:size(cart, 1)
+        % calculate (x,y) point along line closest to cart(i) & dist between
         bn = cart(i, 2) + cart(i, 1)/m; % solve b = y + x/m
         x = (bn - b)/(m + 1/m); % solve mx+b = -x/m+bn for x
         y = m*x + b;
-        dist_tan = sqrt((cart(i,1)-x)^2 + (cart(i,2)-y)^2);% sqrt(dx^2 + dy^2)
+        dist_tan = sqrt((cart(i,1)-x)^2 + (cart(i,2)-y)^2); % sqrt(dx^2 + dy^2)
         
-        if dist_tan <= d
-            inliers = [inliers; i];
+        if dist_tan <= d % if it's an inlier
+            inliers = [inliers; i]; % add new inlier to list
             
+            % if it's the first inlier, make it the first endpoint
             if size(inliers, 1) == 1
                 endpoints(1,:) = cart(i,:);
                 endline(1,:) = [x y];
             end
+            % if it's the second inlier, assign the leftmost as endpoint 1
             if size(inliers, 1) == 2
                 if endline(1,1) < x
                     endpoints(2,:) = cart(i,:);
@@ -187,6 +206,7 @@ function [inliers endline m b] = calc_inliers(cart, d, endpoints)
                     endline(1,:) = [x y];
                 end
             end
+            % if it's another inlier, figure out if it's farthest left or right so far
             if size(inliers, 1) > 2
                 if x > endline(2,1)
                     endpoints(2,:) = cart(i,:);
@@ -202,72 +222,42 @@ function [inliers endline m b] = calc_inliers(cart, d, endpoints)
 end
 
 function [outliers, calc_r, center] = circlefit(cart, d, n, r, tol)
+    % circle fit using discriminating criteria (point distance, radius,
+    % near inliers) to identify the best circle in datapoints 'cart'
+    
     calc_r = r;
     inliers = zeros(0,2);
     center = zeros(0,2);
     for k=1:n
-        % Looking in a particular area on the graph instead of guessing
-        % blindly. signifiantly improves recognition at the expense of
-        % having to know map layout.
-        xs = cart(:,1);
-        ys = cart(:,2);
-        indexx=find(xs > .2 & xs < .8);
-        indexy=find(ys > -2.8 & ys < -2.2);
-        index_circ=intersect(indexx,indexy);
-        circx=xs(index_circ);
-        circy=ys(index_circ);
-        A = [circx circy ones(size(circx))];
-        b = -circx.^2 - circy.^2;
-
-        % linear regression, solving for center and radius
-        w = A\b;
-        new_center = [-w(1)/2 -w(2)/2];
-        new_r = sqrt(new_center(1).^2 + new_center(2).^2 - w(3));
+%         % Looking in a particular area on the graph instead of guessing
+%         % blindly. signifiantly improves recognition at the expense of
+%         % having to know map layout.
+%         xs = cart(:,1);
+%         ys = cart(:,2);
+%         indexx=find(xs > .2 & xs < .8);
+%         indexy=find(ys > -2.8 & ys < -2.2);
+%         index_circ=intersect(indexx,indexy);
+%         circx=xs(index_circ);
+%         circy=ys(index_circ);
+%         A = [circx circy ones(size(circx))];
+%         b = -circx.^2 - circy.^2;
         
-        % counting up the inliers
-        new_inliers = [];
-        for i=1:size(cart, 1)
-            dist = abs(sqrt((cart(i,1)-new_center(1)).^2 + (cart(i,2)-new_center(2)).^2) - new_r);
-            if dist < d
-                new_inliers = [new_inliers; i];
-            end
-        end
-    
-        % seeing if it's a better match than the previous one
-        if abs(new_r - r) < tol  && size(new_inliers,1) > size(inliers,1)
-            inliers = new_inliers;
-            calc_r = new_r;
-            center = new_center;
-        end
-    end
-    
-    graph_circle(center, calc_r);
-    outliers = cart;
-    outliers(inliers,:) = [];
-end
-
-function [outliers, calc_r, center] = circlefit2(cart, d, n, r, tol)
-    calc_r = r;
-    inliers = zeros(0,2);
-    center = zeros(0,2);
-    for k=1:n
-        d1 = 2*r+1;
-        d2 = 2*r+1;
-        while d1 > 2*r || d2 > 2*r
-            % Pick 3 random points and try to draw a circle through them
+        d1 = 2*r+1; d2 = 2*r+1;
+        while d1 > 2*r || d2 > 2*r % check whether distance apart is too big
+            % Pick 3 random points
             candidates = datasample(cart, 3, 'Replace', false);
             d1 = sqrt((candidates(1,1)-candidates(2,1)).^2 + (candidates(1,2)-candidates(2,2)).^2);
             d2 = sqrt((candidates(2,1)-candidates(3,1)).^2 + (candidates(2,2)-candidates(3,2)).^2);
         end
-        % linear regression, solving for center and radius
+        
+        % linear regression, solving for center and radius through candidates
         A = [candidates(:,1) candidates(:,2) ones(size(candidates, 1),1)];
         b = -candidates(:,1).^2 - candidates(:,2).^2;
         w = A\b;
-        b2=A*w;
         new_center = [-w(1)/2 -w(2)/2];
         new_r = sqrt(new_center(1).^2 + new_center(2).^2 - w(3));
         
-        if abs(new_r - r) < tol
+        if abs(new_r - r) < tol % continue if radius is reasonably correct
             % counting up the inliers and near inliers
             near_inliers = [];
             new_inliers = [];
@@ -276,11 +266,15 @@ function [outliers, calc_r, center] = circlefit2(cart, d, n, r, tol)
                 if dist < d
                     new_inliers = [new_inliers; i];
                 end
+                
+                % near inliers is important bc circles don't have them, but
+                % circle fits over linear segments do.
                 if dist < 2*d && dist > d
                     near_inliers = [near_inliers; i];
                 end
             end
-            % seeing if it's a better match than the previous one
+            
+            % see if it's a better match than the previous one
             if size(new_inliers,1) > size(inliers,1) && size(near_inliers, 1) == 0
                 inliers = new_inliers;
                 calc_r = new_r;

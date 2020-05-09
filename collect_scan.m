@@ -1,8 +1,8 @@
-% used to map the gauntlet - get lidar data from neato
+% map the gauntlet by getting lidar data from neato
 
 % clear all;
 % rostopic list
-scan('scandata')
+scan('data_files/scandata')
 
 function scan(datasetname)
 % Method for collecting lidar scan data from Neato. 
