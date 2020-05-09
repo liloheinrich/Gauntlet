@@ -1,6 +1,6 @@
 % used to find BoB and line segments of walls/obstacles
 clc; clf; close all; clear all;
-fit('scandata', 'shapedata')
+fit('data_files/scandata', 'data_files/shapedata')
 
 function fit(input, output)
     load(input) % lidar scan data (ranges, angle_increment)

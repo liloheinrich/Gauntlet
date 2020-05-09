@@ -1,11 +1,11 @@
 % used to drive the path of specified x,y points and save the encoder data
 
 clc; close all; clear all;
-drive('output');
+drive('data_files/pathpoints', 'data_files/shapedata', 'data_files/output');
 
-function drive(datafile)
-    load pathpoints
-    load shapedata
+function drive(pathfile, shapefile, datafile)
+    load(pathfile)
+    load(shapefile)
     
     collectDataset_sim(datafile) % press space to activate data collection!
     pub = rospublisher('/raw_vel'); msg = rosmessage(pub);
@@ -34,7 +34,7 @@ function drive(datafile)
         elapsedTime = currTime - start;
         
         if elapsedTime > pause_time*count
-            count
+%             count
             dx = xn(count+1)-xn(count);
             dy = yn(count+1)-yn(count);
             new_heading = atan2(dy, dx); % calc new heading in relation to prev

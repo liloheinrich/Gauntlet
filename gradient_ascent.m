@@ -4,7 +4,7 @@
 
 %% numerically solve for potential field and gradient field over a meshgrid
 clc; clf; close all; clear all;
-load shapedata;
+load data_files/shapedata;
 
 [X Y] = meshgrid(-3:.2:3);
 Z4 = 0;
@@ -32,10 +32,12 @@ graph(radius, center, endpoints)
 title('Identified shapes from initial position scan with potential field contours and gradient field vectors')
 
 %% generate path points using this parameterized function
+clc; clf; close all; clear all;
+
 lambda = .001; sigma = .9575;
 xi = 0; yi = 0; max_pts = 100;
-[xn, yn] = calculate_all('shapedata', xi, yi, lambda, sigma, max_pts)
-save('pathpoints', 'xn', 'yn')
+[xn, yn] = calculate_all('data_files/shapedata', xi, yi, lambda, sigma, max_pts)
+save('data_files/pathpoints', 'xn', 'yn')
 
 function [xn yn] = calculate_all(input, xi, yi, lambda, sigma, max_pts)
     load(input);

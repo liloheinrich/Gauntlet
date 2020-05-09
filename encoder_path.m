@@ -1,9 +1,9 @@
 % used to plot the path from encoder data and compare to calculated path
 
 hold on
-load('output')
-load('pathpoints')
-load('shapedata')
+load('data_files/output')
+load('data_files/pathpoints')
+load('data_files/shapedata')
 
 dt = .1; % time increment
 d=.235; % wheelbase width
