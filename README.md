@@ -3,7 +3,7 @@ Gauntlet Challenge code for QEA Spring 2020
 
 
 
-**Introduction**
+## Introduction
 
 The gauntlet is a simulated environment with obstacles (boxes), walls, and the Barrel of Benevolence (BoB). The challenge is to autonomously guide a Neato robot from the origin of the map through the obstacles and to gently tap the BoB. There are three levels of missions:
 
@@ -15,7 +15,7 @@ Where levels 2 & 3 may be completed either through dynamic updating or just an i
 
 
 
-**Approach**
+## Approach
 
 My general approach was to use only an initial scan. I figured out that running the circle detection and recalculating the potential field was going to be too computationally expensive causing the program to seriously slow down, as well as too complex for me to implement right now.
 
