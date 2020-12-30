@@ -23,7 +23,7 @@ I also initially tried taking the polynomial best fit of the path points, turnin
 
 The five main steps to my method of completing the challenge were:
 
-1. Scan: collect LIDAR scan data![img](https://lh4.googleusercontent.com/kgWpuCK5-OxbP6FTk6McCl8CWg7kdFzv3qN56wPLcaC9rGXkQcPTOr9BXThKCMDjOKRKc_9E9ZU-NLS9Q_1d2bJVO7Ys2xPoEUM8ipgOHcqRFVU-uOjyCt309okRSwAo90zcjdud)
+1. Scan: collect initial LIDAR scan data ![img](https://lh4.googleusercontent.com/kgWpuCK5-OxbP6FTk6McCl8CWg7kdFzv3qN56wPLcaC9rGXkQcPTOr9BXThKCMDjOKRKc_9E9ZU-NLS9Q_1d2bJVO7Ys2xPoEUM8ipgOHcqRFVU-uOjyCt309okRSwAo90zcjdud)
 
 2. Fit: run circle detection for center coordinate, then find obstacles as line segments![img](https://lh5.googleusercontent.com/mcHq-l3gfBZDij3bowaU7nu_tqbMdMUuZnOVv8C0HwFPtwxJhFFhYdEYYe6E9G6FJro2BbigDrngAOMrHLWAHshRRDMR08lmgAfaEc7BSTwO0LRRUAF1kW-wTwCN-Zfsan8Izz8Y)
 
