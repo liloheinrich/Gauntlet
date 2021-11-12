@@ -1,6 +1,6 @@
 # Gauntlet
 
-Robotics Challenge code for Quantitative Engineering Analysis Spring 2020
+Robot Path Planning Challenge code for Quantitative Engineering Analysis Spring 2020
 
 - Use Random Sampling Concensus (RANSAC) to fit lidar data and find circular target
 - Use gradient descent to plot a path to the target while avoiding obstacles
