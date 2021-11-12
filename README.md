@@ -1,5 +1,5 @@
 # Gauntlet
-Gauntlet Challenge code for Qunatitative Engineering Analysis Spring 2020
+Gauntlet Challenge code for Quantitative Engineering Analysis Spring 2020
 
 
 
