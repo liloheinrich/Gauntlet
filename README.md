@@ -6,6 +6,8 @@ Robot Path Planning Challenge code for Quantitative Engineering Analysis 1, Spri
 - Use gradient descent to plot a path to the target while avoiding obstacles
 - Calculate angular and forward velocity and execute on robot
 
+Also see **[Bridge of Doom Challenge](https://github.com/liloheinrich/BridgeOfDoom)** for another project about parametric path following.
+
 ## Introduction
 
 The gauntlet is a simulated environment with obstacles (boxes), walls, and the Barrel of Benevolence (BoB). The challenge is to autonomously guide a Neato robot from the origin of the map through the obstacles and to gently tap the BoB. There are three levels of missions:
