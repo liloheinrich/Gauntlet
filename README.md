@@ -11,6 +11,7 @@ Robot Path Planning Challenge code for Quantitative Engineering Analysis 1, Spri
    ```
    
 Also see **[Bridge of Doom Challenge](https://github.com/liloheinrich/BridgeOfDoom)** for another project about parametric path following.
+
 <br/>
 
 ## Introduction
