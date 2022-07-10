@@ -1,11 +1,11 @@
 # Gauntlet
 
-<img align="left" width="320" src="https://github.com/liloheinrich/Gauntlet/blob/master/media/potential_gradient_field.png"> 
+<img align="left" width="350" src="https://github.com/liloheinrich/Gauntlet/blob/master/media/potential_gradient_field.png"> 
 
 Robot Path Planning Challenge code for Quantitative Engineering Analysis 1, Spring 2020
 
 ```
-- Use Random Sampling Concensus (RANSAC) to fit lidar data and find circular target
+- Use Random Sampling Concensus (RANSAC) to fit lidar data + find circular target
 - Use gradient descent to plot a path to the target while avoiding obstacles
 - Calculate angular and forward velocity and execute on robot
 ```
