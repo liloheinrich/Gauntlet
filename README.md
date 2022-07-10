@@ -28,7 +28,7 @@ Where levels 2 & 3 may be completed either through dynamic updating or just an i
 
 ## Approach
 
-My general approach was to use only an initial scan. I figured out that running the circle detection (using RANSAC) and recalculating the potential field was too computationally expensive and caused the program to seriously slow down, as well as too complex for me to implement right now.
+My general approach was to use only one initial data scan. I figured out that running the RANSAC circle detection and recalculating the potential field more often was too computationally expensive and caused the program to seriously slow down, as well as too complex for me to implement right now.
 
 I also initially tried taking the polynomial best fit of the path points, turning it into a parametric equation, and running it through my Bridge of Doom parametric path follower code, but it wasn’t working very well and so I decided to go for a simpler approach to speed up the process.
 
