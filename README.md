@@ -14,6 +14,8 @@ Also see **[Bridge of Doom Challenge](https://github.com/liloheinrich/BridgeOfDo
 
 <br/>
 
+<br/>
+
 ## Introduction
 
 The gauntlet is a simulated environment with obstacles (boxes), walls, and the Barrel of Benevolence (BoB). The challenge is to autonomously guide a Neato robot from the origin of the map through the obstacles and to gently tap the BoB. There are three levels of missions:
