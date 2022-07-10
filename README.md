@@ -1,11 +1,11 @@
 # Gauntlet
 
-| Robot Path Planning Challenge code for Quantitative Engineering Analysis 1, Spring 2020 
+| Robot Path Planning Challenge code for Quantitative Engineering Analysis 1, Spring 2020 | <img src="https://github.com/liloheinrich/Gauntlet/blob/master/media/potential_gradient_field.png" width="150"> |
+| ------------- | ------------ |
+
 - Use Random Sampling Concensus (RANSAC) to fit lidar data and find circular target
 - Use gradient descent to plot a path to the target while avoiding obstacles
 - Calculate angular and forward velocity and execute on robot
-| <img src="https://github.com/liloheinrich/Gauntlet/blob/master/media/potential_gradient_field.png" width="150"> |
-| ------------- | ------------ |
 
 Also see **[Bridge of Doom Challenge](https://github.com/liloheinrich/BridgeOfDoom)** for another project about parametric path following.
 
