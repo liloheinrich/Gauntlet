@@ -1,6 +1,6 @@
 # Gauntlet
 
-<img align="left" width="370" src="https://github.com/liloheinrich/Gauntlet/blob/master/media/potential_gradient_field.png"> 
+<img align="left" width="365" src="https://github.com/liloheinrich/Gauntlet/blob/master/media/potential_gradient_field.png"> 
 
 Robot Path Planning Challenge code for Quantitative Engineering Analysis 1, Spring 2020
 
