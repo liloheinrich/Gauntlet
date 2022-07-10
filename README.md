@@ -23,8 +23,6 @@ Level 1: the locations and dimensions of the obstacles and BoB are all given
 Level 2: the BoB location and radius is given but obstacles must be found using LIDAR
 Level 3: the radius of the BoB is given, obstacles and BoB must be found using LIDAR
 ```
-
-
 ## Approach
 
 My general approach was to use only one initial data scan. I figured out that running the RANSAC circle detection and recalculating the potential field more often was too computationally expensive and caused the program to seriously slow down, as well as too complex for me to implement in the given timeframe.
