@@ -27,7 +27,7 @@ Level 3: the radius of the BoB is given, obstacles and BoB must be found using L
 
 ## Approach
 
-My general approach was to use only one initial data scan. I figured out that running the RANSAC circle detection and recalculating the potential field more often was too computationally expensive and caused the program to seriously slow down, as well as too complex for me to implement right now.
+My general approach was to use only one initial data scan. I figured out that running the RANSAC circle detection and recalculating the potential field more often was too computationally expensive and caused the program to seriously slow down, as well as too complex for me to implement in the given timeframe.
 
 I also initially tried taking the polynomial best fit of the path points, turning it into a parametric equation, and running it through my Bridge of Doom parametric path follower code, but it wasn’t working very well and so I decided to go for a simpler approach to speed up the process.
 
