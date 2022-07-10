@@ -4,11 +4,11 @@
 
 Robot Path Planning Challenge code for Quantitative Engineering Analysis 1, Spring 2020
 
-   ```
-   - Use Random Sampling Concensus (RANSAC) to fit lidar data and find circular target
-   - Use gradient descent to plot a path to the target while avoiding obstacles
-   - Calculate angular and forward velocity and execute on robot
-   ```
+```
+- Use Random Sampling Concensus (RANSAC) to fit lidar data and find circular target
+- Use gradient descent to plot a path to the target while avoiding obstacles
+- Calculate angular and forward velocity and execute on robot
+```
    
 Also see **[Bridge of Doom Challenge](https://github.com/liloheinrich/BridgeOfDoom)** for another project about parametric path following.
 <!-- <br/> -->
