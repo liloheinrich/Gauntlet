@@ -11,7 +11,7 @@ Robot Path Planning Challenge for Quantitative Engineering Analysis 1, Spring 20
 - Calculate angular + forward velocity, execute on robot
 ```
    
-Also **[Bridge of Doom Challenge](https://github.com/liloheinrich/BridgeOfDoom)**, another project about parametric path following.
+Also see **[Bridge of Doom Challenge](https://github.com/liloheinrich/BridgeOfDoom)**, another project about parametric path following.
 <!-- <br/> -->
 
 ## Introduction
