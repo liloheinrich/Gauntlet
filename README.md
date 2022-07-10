@@ -1,6 +1,6 @@
 # Gauntlet
 
-| Robot Path Planning Challenge code for Quantitative Engineering Analysis 1, Spring 2020 | <img src="https://github.com/liloheinrich/Gauntlet/blob/master/media/potential_gradient_field.png" width="150"> |
+| Robot Path Planning Challenge code for Quantitative Engineering Analysis 1, Spring 2020 | <img src="https://github.com/liloheinrich/Gauntlet/blob/master/media/potential_gradient_field.png" width="300"> |
 | ------------- | ------------ |
 
 - Use Random Sampling Concensus (RANSAC) to fit lidar data and find circular target
