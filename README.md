@@ -8,6 +8,8 @@ Robot Path Planning Challenge code for Quantitative Engineering Analysis 1, Spri
 
 Also see **[Bridge of Doom Challenge](https://github.com/liloheinrich/BridgeOfDoom)** for another project about parametric path following.
 
+![img](https://lh6.googleusercontent.com/0k8IL5rt1sM_tj2yXEgd0OzpWi4t-d99RotHfe83BmYEFwZAPf0QLgyaeAebhJZHA13k51dxB9_bytEYHjIiJzJduxwzuuX35C6Yuj3ooB-jbuzvBgIUSpyDoJQmdDMQPSEVG-1N)
+
 ## Introduction
 
 The gauntlet is a simulated environment with obstacles (boxes), walls, and the Barrel of Benevolence (BoB). The challenge is to autonomously guide a Neato robot from the origin of the map through the obstacles and to gently tap the BoB. There are three levels of missions:
@@ -17,7 +19,6 @@ The gauntlet is a simulated environment with obstacles (boxes), walls, and the B
 - Level 3: the radius of the BoB is given, obstacles and BoB must be found using LIDAR
 
 Where levels 2 & 3 may be completed either through dynamic updating or just an initial scan from the LIDAR. I completed level 3.
-
 
 
 ## Approach
@@ -34,9 +35,9 @@ The five main steps to my method of completing the challenge were:
 
 3. Path: 
 
-   1.  create potential field with sources across line segments and sinks along BoB circle![img](https://lh3.googleusercontent.com/RXppRp6rfCVRdcE0V6H1y5ZCujMS_O-BUpkgchaMCY6hFY9j8Y5Kh-w72Svxyb_WNk1vaFUsHCvlVjFMqUeCt8OYnRDJWn130gQEca8xP1YzxEncqo6w7-Bk6dCqWVRkDbScpzXl)
+   1.  Create potential field with sources across line segments and sinks along BoB circle![img](https://lh3.googleusercontent.com/RXppRp6rfCVRdcE0V6H1y5ZCujMS_O-BUpkgchaMCY6hFY9j8Y5Kh-w72Svxyb_WNk1vaFUsHCvlVjFMqUeCt8OYnRDJWn130gQEca8xP1YzxEncqo6w7-Bk6dCqWVRkDbScpzXl)
 
-   2. run gradient descent to calculate path to local maximum![img](https://lh6.googleusercontent.com/0k8IL5rt1sM_tj2yXEgd0OzpWi4t-d99RotHfe83BmYEFwZAPf0QLgyaeAebhJZHA13k51dxB9_bytEYHjIiJzJduxwzuuX35C6Yuj3ooB-jbuzvBgIUSpyDoJQmdDMQPSEVG-1N)
+   2. Run gradient descent to calculate path to local maximum![img](https://lh6.googleusercontent.com/0k8IL5rt1sM_tj2yXEgd0OzpWi4t-d99RotHfe83BmYEFwZAPf0QLgyaeAebhJZHA13k51dxB9_bytEYHjIiJzJduxwzuuX35C6Yuj3ooB-jbuzvBgIUSpyDoJQmdDMQPSEVG-1N)
 
 4. Drive: use the change in heading to feed into the angular velocity in order to roughly follow the calculated points path (also: record encoder data as Neato drives)
 
