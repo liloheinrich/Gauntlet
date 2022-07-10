@@ -1,6 +1,6 @@
 # Gauntlet
 
-<img align="left" width="300" src="https://github.com/liloheinrich/Gauntlet/blob/master/media/potential_gradient_field.png"> 
+<img align="left" width="350" src="https://github.com/liloheinrich/Gauntlet/blob/master/media/potential_gradient_field.png"> 
 
 Robot Path Planning Challenge code for Quantitative Engineering Analysis 1, Spring 2020
 
@@ -11,10 +11,7 @@ Robot Path Planning Challenge code for Quantitative Engineering Analysis 1, Spri
    ```
    
 Also see **[Bridge of Doom Challenge](https://github.com/liloheinrich/BridgeOfDoom)** for another project about parametric path following.
-
-<br/>
-
-<br/>
+<!-- <br/> -->
 
 ## Introduction
 
