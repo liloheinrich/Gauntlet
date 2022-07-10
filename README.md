@@ -44,7 +44,7 @@ The five main steps to my method of completing the challenge were:
 
    2. Run gradient descent to calculate path to local maximum![img](https://lh6.googleusercontent.com/0k8IL5rt1sM_tj2yXEgd0OzpWi4t-d99RotHfe83BmYEFwZAPf0QLgyaeAebhJZHA13k51dxB9_bytEYHjIiJzJduxwzuuX35C6Yuj3ooB-jbuzvBgIUSpyDoJQmdDMQPSEVG-1N)
 
-4. Drive: Use the change in heading to feed into the angular velocity in order to roughly follow the calculated points path (also: record encoder data as Neato drives)
+4. Drive: Use the change in heading to feed directly into the angular velocity in order to roughly follow the calculated points path (also: record encoder data as Neato drives)
 
    1. Calibrate coefficients for the angular velocity, forward velocity, and time increment
 
