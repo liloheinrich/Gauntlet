@@ -5,7 +5,7 @@
 Robot Path Planning Challenge code for Quantitative Engineering Analysis 1, Spring 2020
 
 ```
-- Find circular target using Random Sampling Concensus to fit lidar data 
+- Fit lidar data to find circular target using Random Sampling Concensus
 - Plot path to the target using gradient descent to avoid obstacles
 - Calculate angular + forward velocity, execute on robot
 ```
