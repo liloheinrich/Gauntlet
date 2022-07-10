@@ -1,8 +1,8 @@
 # Gauntlet
 
-<img align="left" width="360" src="https://github.com/liloheinrich/Gauntlet/blob/master/media/potential_gradient_field.png"> 
+<img align="left" width="380" src="https://github.com/liloheinrich/Gauntlet/blob/master/media/potential_gradient_field.png"> 
 
-Robot Path Planning Challenge code for Quantitative Engineering Analysis 1, Spring 2020
+Robot Path Planning Challenge for Quantitative Engineering Analysis 1, Spring 2020
 
 ```
 - Fit lidar data to find circular target using Random Sampling Concensus
